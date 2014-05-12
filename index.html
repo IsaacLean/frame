@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Project Frame</title>
+	<style>
+		body {background-color:#ccc;}
+		canvas {background-color: #eee;}
+	</style>
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		
+		var shine = ["fox/shine/0.jpg",
+						"fox/shine/1.jpg",
+						"fox/shine/2.jpg",
+						"fox/shine/3.jpg",
+						"fox/shine/4.jpg",
+						"fox/shine/5.jpg",
+						"fox/shine/6.jpg",
+						"fox/shine/7.jpg",
+						"fox/shine/8.jpg",
+						"fox/shine/9.jpg",
+						"fox/shine/10.jpg",
+						"fox/shine/11.jpg",
+						"fox/shine/12.jpg",
+						"fox/shine/13.jpg",
+						"fox/shine/14.jpg",
+						"fox/shine/15.jpg",
+						"fox/shine/16.jpg",
+						"fox/shine/17.jpg",
+						"fox/shine/18.jpg",
+						"fox/shine/19.jpg",
+						"fox/shine/20.jpg",
+						"fox/shine/21.jpg",
+						"fox/shine/22.jpg",
+						"fox/shine/23.jpg",
+						"fox/shine/24.jpg",
+						"fox/shine/25.jpg"
+						];
+		var display = [];
+		var frame = 0;
+		var setIntervalPtr;
+		
+		var animate = function(){
+			//ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.drawImage(display[frame], 0, 0, img.width * 0.5, img.height * 0.5);
+			ctx.clearRect(100, 370, canvas.width, canvas.height);
+			ctx.fillStyle = "#000";
+			ctx.fillText("Frame " + (frame + 1), 200, 400);
+			frame = (frame + 1) % display.length;
+		}
+		
+		var loadImages = function(){
+			for(var i = 0; i < shine.length; ++i){
+				var newImage = new Image();
+				newImage.src = shine[i];
+				display[i] = newImage;
+			}
+		}
+		
+		var drawButton = function(buttonObj){
+			ctx.fillStyle = "#000";
+			ctx.fillRect(buttonObj.x, buttonObj.y, buttonObj.width, buttonObj.height);
+		}
+		
+		var buttonClickCheck = function(buttonObj, mouseX, mouseY){
+			if((mouseX > buttonObj.x) && (mouseX < (buttonObj.x + buttonObj.width)) &&
+				(mouseY > buttonObj.y) && mouseY < (buttonObj.y + buttonObj.height))
+				return true;
+			else
+				return false;
+		}
+		
+		/* main */
+		//setup button
+		var btn60fps = new Object();
+		btn60fps.x = 500;
+		btn60fps.y = 10;
+		btn60fps.width = 90;
+		btn60fps.height = 45;
+		
+		var btn30fps = new Object();
+		btn30fps.x = 500;
+		btn30fps.y = 65;
+		btn30fps.width = 90;
+		btn30fps.height = 45;
+		
+		var btn10fps = new Object();
+		btn10fps.x = 500;
+		btn10fps.y = 120;
+		btn10fps.width = 90;
+		btn10fps.height = 45;
+		
+		var btn1fps = new Object();
+		btn1fps.x = 500;
+		btn1fps.y = 175;
+		btn1fps.width = 90;
+		btn1fps.height = 45;
+		
+		var btnstop = new Object();
+		btnstop.x = 500;
+		btnstop.y = 230;
+		btnstop.width = 90;
+		btnstop.height = 45;
+		
+		var btnnext = new Object();
+		btnnext.x = 500;
+		btnnext.y = 285;
+		btnnext.width = 90;
+		btnnext.height = 45;
+		
+		//set font
+		ctx.font = "bold 16px sans-serif";
+		
+		drawButton(btn60fps);
+		ctx.fillStyle = "#FFF";
+		ctx.fillText("60 FPS", 520, 40);
+		
+		drawButton(btn30fps);
+		ctx.fillStyle = "#FFF";
+		ctx.fillText("30 FPS", 520, 95);
+		
+		drawButton(btn10fps);
+		ctx.fillStyle = "#FFF";
+		ctx.fillText("10 FPS", 520, 145);
+		
+		drawButton(btn1fps);
+		ctx.fillStyle = "#FFF";
+		ctx.fillText("1 FPS", 520, 200);
+		
+		drawButton(btnstop);
+		ctx.fillStyle = "#FFF";
+		ctx.fillText("Stop", 520, 255);
+		
+		drawButton(btnnext);
+		ctx.fillStyle = "#FFF";
+		ctx.fillText("Next", 520, 310);
+		
+		var img = new Image();
+		img.src="fox/stand/0.jpg";
+		loadImages();
+		img.onload = function(){
+			ctx.drawImage(img, 0, 0, img.width * 0.5, img.height * 0.5);
+			//setIntervalPtr = setInterval(animate, 1000/60);
+			ctx.fillStyle = "#000";
+		}
+		
+		$("#canvas").click(function(event){
+			var mouseX = event.pageX - this.offsetLeft;
+			var mouseY = event.pageY - this.offsetTop;
+			
+			if(buttonClickCheck(btn60fps, mouseX, mouseY)){
+				console.log("60 FPS");
+				clearInterval(setIntervalPtr);
+				setIntervalPtr = setInterval(animate, 1000/60);
+			}if(buttonClickCheck(btn30fps, mouseX, mouseY)){
+				console.log("30 FPS");
+				clearInterval(setIntervalPtr);
+				setIntervalPtr = setInterval(animate, 1000/30);
+			}if(buttonClickCheck(btn10fps, mouseX, mouseY)){
+				console.log("10 FPS");
+				clearInterval(setIntervalPtr);
+				setIntervalPtr = setInterval(animate, 1000/10);
+			}if(buttonClickCheck(btn1fps, mouseX, mouseY)){
+				console.log("1 FPS");
+				clearInterval(setIntervalPtr);
+				setIntervalPtr = setInterval(animate, 1000/1);
+			}if(buttonClickCheck(btnstop, mouseX, mouseY)){
+				console.log("Stop");
+				clearInterval(setIntervalPtr);
+			}if(buttonClickCheck(btnnext, mouseX, mouseY)){
+				console.log("Next");
+				clearInterval(setIntervalPtr);
+				animate();
+			}
+		});
+	});
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="600"></canvas>
+</body>
+</html>
