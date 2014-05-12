@@ -1,0 +1,15 @@
+#outside{
+	width: 200px;
+	height: 200px;
+	background-color: green;
+}
+
+#inside{
+	width: 100px;
+	height: 100px;
+	background-color: red;
+}
+
+#draggable{
+	background-color: blue;
+}
