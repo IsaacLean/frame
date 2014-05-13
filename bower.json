@@ -1,0 +1,20 @@
+{
+  "name": "frame",
+  "version": "0.0.0",
+  "homepage": "https://github.com/IsaacLean/frame",
+  "authors": [
+    "Matthew 'Isaac' Lean"
+  ],
+  "description": "An AngularJS web application that displays hitbox/frame data for fighting games.",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.16"
+  }
+}
